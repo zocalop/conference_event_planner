@@ -52,15 +52,20 @@ const ConferenceEvent = () => {
 
     };
     const calculateTotalCost = (section) => {
-        let totalCost = 0;
-        if (section === "venue") {
-          venueItems.forEach((item) => {
-            totalCost += item.cost * item.quantity;
-          });
-        }
-        return totalCost;
-      };
+      let totalCost = 0;
+      if (section === "venue") {
+        venueItems.forEach((item) => {
+          totalCost += item.cost * item.quantity;
+        });
+      } else if (section === "av") {
+        avItems.forEach((item) => {
+          totalCost += item.cost * item.quantity;
+        });
+      }    
+      return totalCost;
+    };
     const venueTotalCost = calculateTotalCost("venue");
+    const avTotalCost = calculateTotalCost("av");
 
     const navigateToProducts = (idType) => {
         if (idType == '#venue' || idType == '#addons' || idType == '#meals') {
@@ -147,7 +152,8 @@ const ConferenceEvent = () => {
         <div className="total_cost">Total Cost: ${venueTotalCost}</div>
         </div>
 
-        {/*Necessary Add-ons*/}
+{/*Necessary Add-ons*/}
+
         <div id="addons" className="venue_container container_main">
           <div className="text">
             <h1> Add-ons Selection</h1>
@@ -168,7 +174,7 @@ const ConferenceEvent = () => {
               </div>
             ))}
           </div>
-          <div className="total_cost">Total Cost:</div>
+          <div className="total_cost">Total Cost: {avTotalCost}</div>
           </div>
 
                             {/* Meal Section */}
