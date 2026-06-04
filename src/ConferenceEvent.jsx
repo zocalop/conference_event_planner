@@ -47,7 +47,7 @@ const ConferenceEvent = () => {
         const newNumberOfPeople = item.selected ? numberOfPeople : 0;
         dispatch(toggleMealSelection(index, newNumberOfPeople));
       } else {
-        dispatch(toggleMealsSelection));
+        dispatch(toggleMealsSelection);
       }       
     };
 
@@ -55,7 +55,7 @@ const ConferenceEvent = () => {
       const items = [];
       venueItems.forEach((item) => {
         if (item.quantity > 0) {
-          items.push{ ...item, type: "venue"});
+          items.push({ ...item, type: "venue"});
         }
       });
       avItems.forEach((item) => {
@@ -80,7 +80,8 @@ const ConferenceEvent = () => {
 
     const ItemsDisplay = ({ items }) => {
       console.log(items);
-      return <>
+      return (
+        <>
         <div className="display_box1">
           {items.length === 0 && <p>No items selected</p>}
           <table className="table_item_data">
@@ -107,7 +108,8 @@ const ConferenceEvent = () => {
             </tbody>
           </table>
         </div>
-      <>
+        </>
+      )
     };
 
     const calculateTotalCost = (section) => {
@@ -271,7 +273,7 @@ const ConferenceEvent = () => {
           </div>
           <div className="meal_selection">
             {mealsItems.map((item, index) => (
-              <div className="meal_item" key={index} style={{ padding: 15 }
+              <div className="meal_item" key={index} style={{ padding: 15 }}>
                 <div className="inner">
                   <input type="checkbox" id={ `meal_${index}` }
                     checked={ item.selected }
