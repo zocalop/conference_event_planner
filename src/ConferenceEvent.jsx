@@ -52,7 +52,20 @@ const ConferenceEvent = () => {
     };
 
     const getItemsFromTotalCost = () => {
-        const items = [];
+      const items = [];
+      venueItems.forEach((item) => {
+        if (item.quantity > 0) {
+          items.push{ ...item, type: "venue"});
+        }
+      });
+      avItems.forEach((item) => {
+        if (item.quantity > 0 && !items.some((i) => i.name === item.name && i.type === "av")
+        ) {
+          items.push({ ...item, type: "av" });
+        }
+      });
+      mealsItems.forEach((item) => {
+        if (item.selected) {
     };
 
     const items = getItemsFromTotalCost();
@@ -83,6 +96,11 @@ const ConferenceEvent = () => {
     const venueTotalCost = calculateTotalCost("venue");
     const avTotalCost = calculateTotalCost("av");
     const mealsTotalCost = calculateTotalCost("meals");
+    const totalCosts = {
+      venue: venueTotalCost,
+      av: avTotalCost,
+      meals: mealsTotalCost,
+    };
 
     const navigateToProducts = (idType) => {
         if (idType == '#venue' || idType == '#addons' || idType == '#meals') {
@@ -233,13 +251,13 @@ const ConferenceEvent = () => {
       </div>
       ) : (
         <div className="total_amount_detail">
-          <TotalCost totalCosts={totalCosts} handleClick={handleToggleItems} ItemsDisplay={() => <ItemsDisplay items={items} />} />
+          <TotalCost totalCosts={totalCosts} handleClick={handleToggleItems} ItemsDisplay={() => <ItemsDisplay items={ items } />} />
         </div>
       )
       }
       </div>
-    </>
-  );
+      </>
+    );
 };
 
 export default ConferenceEvent;
