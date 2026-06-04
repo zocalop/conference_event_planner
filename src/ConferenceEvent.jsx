@@ -42,7 +42,13 @@ const ConferenceEvent = () => {
     };
 
     const handleMealSelection = (index) => {
-       
+      const item = mealsItems[index];
+      if (item.selected && item.type === "mealForPeople") {
+        const newNumberOfPeople = item.selected ? numberOfPeople : 0;
+        dispatch(toggleMealSelection(index, newNumberOfPeople));
+      } else {
+        dispatch(toggleMealsSelection));
+      }       
     };
 
     const getItemsFromTotalCost = () => {
@@ -52,8 +58,8 @@ const ConferenceEvent = () => {
     const items = getItemsFromTotalCost();
 
     const ItemsDisplay = ({ items }) => {
-
     };
+
     const calculateTotalCost = (section) => {
       let totalCost = 0;
       if (section === "venue") {
@@ -64,11 +70,19 @@ const ConferenceEvent = () => {
         avItems.forEach((item) => {
           totalCost += item.cost * item.quantity;
         });
-      }    
+      } else if (section === "meals") {
+        mealsItems.forEach((item) => {
+          if (item.selected) {
+            totalCost += item.cost * numberOfPeople;
+          }
+        });
+      }
       return totalCost;
     };
+
     const venueTotalCost = calculateTotalCost("venue");
     const avTotalCost = calculateTotalCost("av");
+    const mealsTotalCost = calculateTotalCost("meals");
 
     const navigateToProducts = (idType) => {
         if (idType == '#venue' || idType == '#addons' || idType == '#meals') {
@@ -214,14 +228,14 @@ const ConferenceEvent = () => {
               </div>
             ))}
           </div>
-          <div className="total_cost">Total Cost: </div>
+          <div className="total_cost">Total Cost: {mealsTotalCost}</div>
         </div>
       </div>
-        ) : (
-          <div className="total_amount_detail">
-            <TotalCost totalCosts={totalCosts} handleClick={handleToggleItems} ItemsDisplay={() => <ItemsDisplay items={items} />} />
-          </div>
-        )
+      ) : (
+        <div className="total_amount_detail">
+          <TotalCost totalCosts={totalCosts} handleClick={handleToggleItems} ItemsDisplay={() => <ItemsDisplay items={items} />} />
+        </div>
+      )
       }
       </div>
     </>
